@@ -78,6 +78,10 @@ vim.keymap.set('n', '<leader>it2', ':lua ChangeIndentation(false, 2)<CR>', { des
 vim.keymap.set('n', '<leader>it4', ':lua ChangeIndentation(false, 4)<CR>', { desc = 'Change Indentation to tabs of width 4' })
 vim.keymap.set('n', '<leader>it8', ':lua ChangeIndentation(false, 8)<CR>', { desc = 'Change Indentation to tabs of width 8' })
 
+-- Keybinds for quickfix list
+vim.keymap.set('n', '<M-j>', '<cmd>cnext<CR>', { desc = 'Goto next item in the quickfix list' })
+vim.keymap.set('n', '<M-k>', '<cmd>cprev<CR>', { desc = 'Goto prev item in the quickfix list' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -88,6 +92,14 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function() vim.hl.on_yank() end,
+})
+
+-- Set colorcolumn to 50 for git commits
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'gitcommit',
+  callback = function()
+    vim.opt_local.colorcolumn = '50'
+  end,
 })
 
 -- vim: ts=2 sts=2 sw=2 et
