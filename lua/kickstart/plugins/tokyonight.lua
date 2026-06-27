@@ -12,6 +12,9 @@ require('tokyonight').setup {
   styles = {
     comments = { italic = false }, -- Disable italics in comments
   },
+  on_highlights = function(highlights, colors)
+    highlights.ColorColumn = { bg = colors.bg_visual }
+  end,
 }
 
 -- Load the colorscheme here.
