@@ -60,6 +60,24 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- Keybinds to convert spaces to tabs and vice versa
+-- Also specifies the indentation length
+
+function ChangeIndentation(useSpaces, width)
+  vim.opt.expandtab = useSpaces
+  vim.opt.tabstop = width
+  vim.opt.shiftwidth = width
+  vim.opt.softtabstop = width
+end
+
+vim.keymap.set('n', '<leader>is2', ':lua ChangeIndentation(true, 2)<CR>', { desc = 'Change Indentation to spaces of width 2' })
+vim.keymap.set('n', '<leader>is4', ':lua ChangeIndentation(true, 4)<CR>', { desc = 'Change Indentation to spaces of width 4' })
+vim.keymap.set('n', '<leader>is8', ':lua ChangeIndentation(true, 8)<CR>', { desc = 'Change Indentation to spaces of width 8' })
+
+vim.keymap.set('n', '<leader>it2', ':lua ChangeIndentation(false, 2)<CR>', { desc = 'Change Indentation to tabs of width 2' })
+vim.keymap.set('n', '<leader>it4', ':lua ChangeIndentation(false, 4)<CR>', { desc = 'Change Indentation to tabs of width 4' })
+vim.keymap.set('n', '<leader>it8', ':lua ChangeIndentation(false, 8)<CR>', { desc = 'Change Indentation to tabs of width 8' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 

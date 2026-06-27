@@ -12,6 +12,9 @@ require('which-key').setup {
     { '<leader>t', group = '[T]oggle' },
     { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } }, -- Enable gitsigns recommended keymaps first
     { 'gr', group = 'LSP Actions', mode = { 'n' } },
+    { '<leader>i', group = '[I]ndentation' },
+    { '<leader>is', group = '[I]ndentation change to [S]paces' },
+    { '<leader>it', group = '[I]ndentation change to [T]abs' },
   },
 }
 

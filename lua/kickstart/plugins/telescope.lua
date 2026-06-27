@@ -40,12 +40,14 @@ require('telescope').setup {
   -- You can put your default mappings / updates / etc. in here
   --  All the info you're looking for is in `:help telescope.setup()`
   --
-  -- defaults = {
-  --   mappings = {
-  --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-  --   },
-  -- },
-  -- pickers = {}
+  defaults = {
+    path_display = { 'truncate' },
+  },
+  pickers = {
+    find_files = {
+      follow = true,
+    },
+  },
   extensions = {
     ['ui-select'] = { require('telescope.themes').get_dropdown() },
   },
@@ -61,8 +63,36 @@ vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' 
 vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
 vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
-vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
+vim.keymap.set('n', '<C-]>', function()
+  -- Get the word under the cursor
+  local word = vim.fn.expand '<cword>'
+
+  -- Call the 'tags' picker and feed it the word as the default search query
+  builtin.tags {
+    default_text = word,
+    -- Disables the default "smart" finding, since we're providing the word
+    -- This is optional but can make it more predictable
+    cwd_only = true,
+  }
+end, {
+  noremap = true,
+  silent = true,
+  desc = 'Find tags (cword) with Telescope',
+})
+vim.keymap.set({ 'n', 'v' }, '<leader>sw', function()
+  builtin.grep_string {
+    additional_args = function()
+      return { '--follow' }
+    end,
+  }
+end, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>sg', function()
+  builtin.live_grep {
+    additional_args = function()
+      return { '--follow' }
+    end,
+  }
+end, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
